@@ -15,12 +15,13 @@ def _map_type(t):
 
 def _extract_parameter_info(func:Callable)->dict:
     sig = inspect.signature(func)
-    type_hints = get_type_hints(func, include_extras=True)
+    type_hints = get_type_hints(func, globalns=globals(), localns=locals(), include_extras=True)
     properties = {}
     required = []
     for param in sig.parameters.values():
         param_name = param.name
-        required.append(param_name)
+        if param.default is inspect.Parameter.empty:
+            required.append(param_name)
         annotation = type_hints.get(param_name, None)
         desc = ''
         if annotation:

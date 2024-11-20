@@ -49,12 +49,14 @@ def _extract_tool_info(func: Callable) -> dict:
     parameters = _extract_parameter_info(func)
     return {
         "type": "function",
-        "name": func.__name__,
-        "description": desc,
-        "parameters": {
-            "type": "object",
-            "properties": parameters['properties'],
-            "required": parameters['required']
+        "function": {
+            "name": func.__name__,
+            "description": desc,
+            "parameters": {
+                "type": "object",
+                "properties": parameters['properties'],
+                "required": parameters['required']
+            }
         }
     }
 

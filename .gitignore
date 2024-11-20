@@ -2,3 +2,4 @@ __pycache__
 build
 dist
 openai_toolgen.egg-info
+venv

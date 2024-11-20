@@ -44,3 +44,16 @@ def test_tool_with_optional_arg():
         """Description how to use foo"""
         ...
     assert tool.export_all()[0]['parameters']['required'] == ["arg1"]
+
+def test_tool_with_enum_arg():
+    from enum import Enum
+    class Unit(str, Enum):
+        Celcius = "c"
+        Farenheit = "f",
+    
+    tool = Toolbox()
+    @tool
+    def get_temperature(unit: Annotated[Unit, "Temperature"]): pass
+    assert tool.export_all()[0]['parameters']['properties']['unit']['type'] == 'string'
+    assert tool.export_all()[0]['parameters']['properties']['unit']['enum'] == ["c", "f"]
+        

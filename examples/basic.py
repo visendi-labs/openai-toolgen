@@ -1,8 +1,3 @@
-A clean way to generate tools to be used with openai projects
-
-Example using Openai Completions:
-
-```python
 from typing import Annotated
 from enum import Enum
 import json
@@ -30,5 +25,8 @@ completion = client.chat.completions.create(
     tools=tool.export_all(),
     tool_choice="required"
 )
-```
-Check out the tests for more details
+f = completion.choices[0].message.tool_calls[0].function
+print(f"function name: {f.name}")
+print(f"function args: {f.arguments}")
+res = globals()[f.name](**json.loads(f.arguments))
+print(res)

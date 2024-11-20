@@ -55,7 +55,28 @@ def test_tool_with_enum_arg():
     
     tool = Toolbox()
     @tool
-    def get_temperature(unit: Annotated[Unit, "Temperature"]): pass
-    assert tool.export_all()[0]['function']['parameters']['properties']['unit']['type'] == 'string'
-    assert tool.export_all()[0]['function']['parameters']['properties']['unit']['enum'] == ["c", "f"]
-        
+    def get_temperature(unit: Annotated[Unit, "unit desc"]): pass
+    assert tool.export_all()[0]['function']['parameters']['properties']['unit'] == {
+        'description': 'unit desc',
+        'type': 'string', 
+        'enum': ["c", "f"]
+    }
+
+def test_tool_multiple_funs():
+    tool = Toolbox()
+    @tool
+    def fun1(): pass
+    @tool
+    def fun2(): pass
+    @tool
+    def fun3(): pass
+    assert len(tool.export_all()) == 3
+
+def test_tool_without_annotation():
+    tool = Toolbox()
+    @tool
+    def get_temperature(unit: str): pass
+    assert tool.export_all()[0]['function']['parameters']['properties']['unit'] == {
+        'description': '',
+        'type': 'string'
+    }

@@ -5,7 +5,6 @@ Example using Openai Completions:
 ```python
 from typing import Annotated
 from enum import Enum
-import json
 from openai import OpenAI
 from openai_toolgen import tool
 

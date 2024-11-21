@@ -44,8 +44,7 @@ def _extract_parameter_info(func: Callable) -> dict:
         "required": required
     }
 
-def _extract_tool_info(func: Callable) -> dict:
-    desc = (inspect.getdoc(func) or '').strip()
+def _extract_tool_info(func: Callable, desc: str) -> dict:
     parameters = _extract_parameter_info(func)
     return {
         "type": "function",
@@ -64,7 +63,18 @@ class Toolbox:
     def __init__(self) -> None:
         self.tools = []
 
-    def __call__(self, func: Callable) -> Callable:
+    def __call__(self, *args, **kwargs) -> Callable:
+        if len(args) == 1 and callable(args[0]) and not kwargs:
+            func=args[0]
+            self.tools.append(_extract_tool_info(func, ''))
+            return  func
+        else:
+            desc = args[0] if args else ''
+            def decorator(func: Callable):
+                self.tools.append(_extract_tool_info(func, desc))
+                return func
+            return decorator
+
         self.tools.append(_extract_tool_info(func))
         return func
 

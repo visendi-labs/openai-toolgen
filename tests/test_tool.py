@@ -3,13 +3,11 @@ from openai_toolgen import Toolbox
 
 def test_tool_two_args():
     tool = Toolbox()
-    @tool
+    @tool("Description how to use foo")
     def foo(
         arg1: Annotated[int, "Description about arg1"],
         arg2: Annotated[str, "Description about arg2"]
-    ):
-        """Description how to use foo"""
-        ...
+    ): pass
     expected_output = [
         {
             "type": "function",
@@ -38,13 +36,11 @@ def test_tool_two_args():
 
 def test_tool_with_optional_arg():
     tool = Toolbox() 
-    @tool
+    @tool("Description how to use foo")
     def foo(
         arg1: Annotated[int, "Description about arg1"],
         arg2: Annotated[str, "Description about arg2"] = "hej"
-    ):
-        """Description how to use foo"""
-        ...
+    ): pass
     assert tool.export_all()[0]['function']['parameters']['required'] == ["arg1"]
 
 def test_tool_with_enum_arg():

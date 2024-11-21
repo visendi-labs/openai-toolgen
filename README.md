@@ -16,13 +16,11 @@ class Unit(str, Enum):
     Celcius = "c"
     Farenheit = "f"
 
-@tool
+@tool("Call this function when the user wants to know the temperature")
 def get_temperature(
         location: Annotated[str, "Location to fetch the tempereature from"],
         unit: Annotated[Unit, "Temperature will be returned in this unit"] = Unit.Celcius
     ):
-    """Call this function when the user wants to know the temperature"""
-
     return { "temperature": 32, "unit": unit.value, "location": location }
 
 client = OpenAI()

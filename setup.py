@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="openai-toolgen",
-    version="0.2.1",
+    version="0.3.0",
     author="Rasmus Nordström",
     author_email="nordstrom.rasmus@gmail.com",
     description="A library for generating tools for OpenAI projects",

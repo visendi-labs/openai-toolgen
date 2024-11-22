@@ -1,6 +1,7 @@
-from typing import Annotated, Callable, get_origin, get_type_hints, get_args
+from typing import Annotated, Callable, Sequence, get_origin, get_type_hints, get_args
 import inspect
-import enum  # Import the enum module
+import enum
+from openai.types.chat import ChatCompletionToolParam
 
 def _map_type(t):
     type_map = {
@@ -75,10 +76,7 @@ class Toolbox:
                 return func
             return decorator
 
-        self.tools.append(_extract_tool_info(func))
-        return func
-
-    def export_all(self) -> list[dict]:
+    def export_all(self) -> Sequence[ChatCompletionToolParam]:
         return self.tools
 
 tool = Toolbox()  # Default
